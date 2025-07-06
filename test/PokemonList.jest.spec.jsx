@@ -14,7 +14,6 @@ const pokemonList = [{
   name: 'eevee',
   id: 133
 }]
-
 describe('<PokemonList />', () => {
   it('should render items', () => {
     render(
