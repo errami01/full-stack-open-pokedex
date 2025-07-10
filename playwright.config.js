@@ -1,4 +1,6 @@
-import { defineConfig } from '@playwright/test';
+/* eslint-disable linebreak-style */
+/* eslint-disable semi */
+import { defineConfig } from '@playwright/test'
 export default defineConfig({
   webServer: {
     command: 'npm run start',
