@@ -24,4 +24,4 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: Run Playwright E2E tests
-        run: npx playwright test
+        run: npm run test:e2e
