@@ -1,5 +1,6 @@
 name: Deployment pipeline
-
+env:
+  SKIP: ${{ contains(toJson(github.event.commits.*.message), '#skip') }}
 on:
   push:
     branches:
@@ -29,10 +30,10 @@ jobs:
       - name: Run Playwright E2E tests
         run: npm run test:e2e
       - name: Trigger deployment
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' && env.SKIP == 'false'}}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
   tag_release:
-    if: ${{ github.event_name == 'push' }} 
+    if: ${{ github.event_name == 'push' && github.env.SKIP == 'false' }} 
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
     steps:    
