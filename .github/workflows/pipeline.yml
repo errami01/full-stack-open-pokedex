@@ -29,17 +29,18 @@ jobs:
       - name: Run Playwright E2E tests
         run: npm run test:e2e
       - name: Trigger deployment
+        id: deploy
         if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip')}}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
-      - name: Send notification to Discord
-        uses: rjstone/discord-webhook-notify@v2
-        if: success()
+      - name: Notify on success
+        uses: rjstone/discord-webhook-notify@v2.2.1
+        if: steps.deploy.outcome == 'success'
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
           severity: info
           details: All tests passed!
       - name: Notify on failure
-        if: failure()
+        if: steps.deploy.outcome == 'failure'
         uses: rjstone/discord-webhook-notify@v2
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
