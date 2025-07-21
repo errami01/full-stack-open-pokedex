@@ -31,13 +31,16 @@ jobs:
       - name: Trigger deployment
         id: deploy
         if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip')}}
-        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_I }}?key=${{ secrets.RENDER_API_KEY }}
       - name: Notify on success
         uses: tsickert/discord-webhook@v7.0.0
         if: steps.deploy.outcome == 'success'
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: "🚀 Deployment succeeded!\nCommit: ${{ github.sha }}"
+          content: "🚀 A new version was deployed" 
+          embed-title: "success"
+          embed-url: "To https://full-stack-open-pokedex-b2lm.onrender.com/"
+          embed-description: "🚀 Deployment succeeded!\nCommit: ${{ github.sha }}" 
       - name: Notify on failure
         if: steps.deploy.outcome == 'failure'
         uses: tsickert/discord-webhook@v7.0.0
