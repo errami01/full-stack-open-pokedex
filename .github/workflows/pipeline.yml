@@ -39,7 +39,7 @@ jobs:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           content: "🚀 A new version was deployed" 
           embed-title: "success"
-          embed-url: "To https://full-stack-open-pokedex-b2lm.onrender.com/"
+          embed-url: "https://full-stack-open-pokedex-b2lm.onrender.com/"
           embed-description: "🚀 Deployment succeeded!\nCommit: ${{ github.sha }}" 
       - name: Notify on failure
         if: steps.deploy.outcome == 'failure'
