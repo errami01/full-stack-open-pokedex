@@ -31,7 +31,8 @@ jobs:
       - name: Trigger deployment
         id: deploy
         if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip')}}
-        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_I }}?key=${{ secrets.RENDER_API_KEY }}
+        run: exit 1
+        # run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
       - name: Get current time
         id: now
         run: echo "time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
