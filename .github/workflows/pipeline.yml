@@ -46,9 +46,9 @@ jobs:
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: ❌ Build failed!
+          content: "❌ Build failed!"
           embed-description: "Commit: ${{ github.sha }} by errami01 broke the build"
-          embed-timestamp: "At ${{ steps.now.outputs.time }}
+          embed-timestamp: "At ${{ steps.now.outputs.time }}"
           embed-color: 15158332
   tag_release:
     if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip') }} 
