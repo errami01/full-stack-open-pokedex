@@ -32,6 +32,10 @@ jobs:
         id: deploy
         if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip')}}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_I }}?key=${{ secrets.RENDER_API_KE }}
+      - name: Get current time
+        id: now
+        run: echo "time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+
       - name: Notify on success
         uses: tsickert/discord-webhook@v7.0.0
         if: steps.deploy.outcome == 'success'
@@ -39,7 +43,7 @@ jobs:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           content: "🚀 A new version of Pokedex deployed" 
           embed-description: "🚀 To https://full-stack-open-pokedex-b2lm.onrender.com/ by errami01"
-          # embed-timestamp: "At ${{ steps.now.outputs.time }}"
+          embed-timestamp: "At ${{ steps.now.outputs.time }}"
           embed-color: 3066993
       - name: Notify on failure
         if: steps.deploy.outcome == 'failure'
@@ -48,7 +52,7 @@ jobs:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           content: "❌ Build failed!"
           embed-description: "Commit: ${{ github.sha }} by errami01 broke the build"
-          # embed-timestamp: "At ${{ steps.now.outputs.time }}"
+          embed-timestamp: "At ${{ steps.now.outputs.time }}"
           embed-color: 15158332
   tag_release:
     if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip') }} 
